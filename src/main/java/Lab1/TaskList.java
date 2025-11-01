@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class TaskList {
     private static ArrayList<Task> tasks = new ArrayList<Task>();
 
+    TaskList(){}
+
     public static ArrayList<Task> getTasks() {
         return tasks;
     }
@@ -13,11 +15,12 @@ public class TaskList {
         TaskList.tasks = tasks;
     }
 
-    public static void addTask(Task task){
+    public void addTask(Task task){
         tasks.add(task);
     }
 
     public static void removeTask(Task task){
         tasks.remove(task);
     }
+
 }

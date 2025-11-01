@@ -5,10 +5,14 @@ public class Task {
     private int id;
     private boolean completed ;
 
-    public Task(String description, int id, boolean completed) {
+    public Task(String description, boolean completed) {
         this.description = description;
-        this.id = id;
         this.completed = completed;
+    }
+
+    public Task(String description){
+        this.description = description;
+        this.completed = false;
     }
 
     public String getDescription() {
@@ -19,19 +23,11 @@ public class Task {
         this.description = description;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public boolean isCompleted() {
         return completed;
     }
 
-    public void setCompleted(boolean completed) {
+    public void completeTask(boolean completed) {
         this.completed = completed;
     }
 }
