@@ -1,6 +1,5 @@
 package Lab1;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Console {
@@ -13,35 +12,53 @@ public class Console {
         println("-----------------------------------");
     }
 
-    public void printTasks(ArrayList<String> tasks){
-        if(tasks.isEmpty()){
-            println("You don't have pending tasks!");
-        }
-        else{
-            println("Your tasks: ");
-            for(int i=0; i<tasks.size(); i++){
-                println((i+1) + ". " + tasks.get(i));
-            }
-        }
-    }
-
     public static void printMenu(){
         println("What do you want to do?");
         println("a - Add task");
         println("c - Complete task");
         println("d - Delete completed tasks");
-        println("q - Exit");
+        println("q - Quit");
     }
 
-    public static String getInput(){
+    public static String promptForSelection(){
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         while(!input.equals("a") && !input.equals("c") && !input.equals("d") && !input.equals("q")){
             println("Invalid input. Please try again.");
-            input = getInput();
+            input = promptForSelection();
         }
         return input;
     }
+
+    public static int promptForTaskIndex(TaskList tasks){
+        try{
+            Scanner sc = new Scanner(System.in);
+            int index = sc.nextInt();
+            while(index < 1){
+                println("The task index must be greater than 0. Please try again.");
+                index = sc.nextInt();
+            }
+            while (index > tasks.getTasks().size()){
+                println("There's no task with that index. Please try again.");
+                index = sc.nextInt();
+            }
+            return index;
+        } catch (Exception e){
+            println("Invalid input. Please try again.");
+            return promptForTaskIndex(tasks);
+        }
+    }
+
+    public static void printTasks(TaskList tasks){
+        tasks.getTasks().forEach(task -> {
+            var checkMark = "[ ]";
+            if(task.getStatus()){
+                checkMark = "[✓]";
+            }
+            println((tasks.getIndex(task) + 1) + "." + checkMark + " " + task.getDescription());
+        });
+    }
+
 
     public static Task promptForTask(){
         println("Please enter the description of the task: ");

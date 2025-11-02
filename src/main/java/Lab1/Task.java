@@ -1,33 +1,23 @@
 package Lab1;
 
 public class Task {
-    private String description;
-    private int id;
-    private boolean completed ;
-
-    public Task(String description, boolean completed) {
-        this.description = description;
-        this.completed = completed;
-    }
+    private final String description;
+    private boolean status;
 
     public Task(String description){
         this.description = description;
-        this.completed = false;
+        this.status = false;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public boolean getStatus() {
+        return status;
     }
 
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void completeTask(boolean completed) {
-        this.completed = completed;
+    public void changeStatus(boolean status) {
+        this.status = status;
     }
 }
