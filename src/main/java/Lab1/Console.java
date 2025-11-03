@@ -1,5 +1,7 @@
 package Lab1;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class Console {
@@ -30,33 +32,34 @@ public class Console {
         return input;
     }
 
-    public static int promptForTaskIndex(TaskList tasks){
-        try{
-            Scanner sc = new Scanner(System.in);
-            int index = sc.nextInt();
-            while(index < 1){
-                println("The task index must be greater than 0. Please try again.");
-                index = sc.nextInt();
+    public static Integer promptForTaskIndex(TaskList tasks){
+        Scanner sc = new Scanner(System.in);
+        while(true) {
+            var index = sc.nextLine().trim();
+            if(index.isEmpty()) {
+                return null;
             }
-            while (index > tasks.getTasks().size()){
-                println("There's no task with that index. Please try again.");
-                index = sc.nextInt();
+            try{
+                int i = Integer.parseInt(index);
+                if(i <= 0 || i > tasks.getTasks().size()){
+                    println("Invalid index. Please try again.");
+                } else {
+                    return i;
+                }
+            } catch(NumberFormatException e){
+                println("Invalid index. Please enter a number or press Enter to go back");
             }
-            return index;
-        } catch (Exception e){
-            println("Invalid input. Please try again.");
-            return promptForTaskIndex(tasks);
         }
     }
 
     public static void printTasks(TaskList tasks){
-        tasks.getTasks().forEach(task -> {
-            var checkMark = "[ ]";
-            if(task.getStatus()){
-                checkMark = "[✓]";
-            }
-            println((tasks.getIndex(task) + 1) + "." + checkMark + " " + task.getDescription());
-        });
+        if (tasks.getTasks().isEmpty()){
+            println("You don't have any tasks!");
+            return;
+        }
+        for(int i = 0; i < tasks.getTasks().size(); i++){
+            println((i+1) + ". " + tasks.getTasks().get(i).toString());
+        }
     }
 
 
@@ -69,5 +72,28 @@ public class Console {
             description = sc.nextLine();
         }
         return new Task(description);
+    }
+
+    public static TaskList readFile(Path path){
+        var tasks = new TaskList();
+        try{
+            if(!Files.exists(path)){
+                Files.createFile(path);
+            }
+            var lines = Files.readAllLines(path);
+            for(var line : lines){
+                if (line.isBlank()) continue;
+                String[] parts = line.split(";", 2);
+                boolean completed = Boolean.parseBoolean(parts[0]);
+                String description = parts.length > 1 ? parts[1] : "";
+                Task task = new Task(description);
+                task.setStatus(completed);
+                tasks.addTask(task);
+            }
+        } catch (Exception e){
+            println("Error reading file. Please try again.");
+            return readFile(path);
+        }
+        return tasks;
     }
 }

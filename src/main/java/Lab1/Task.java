@@ -17,7 +17,12 @@ public class Task {
         return status;
     }
 
-    public void changeStatus(boolean status) {
+    public void setStatus(boolean status){
         this.status = status;
+    }
+
+    @Override
+    public String toString(){
+        return (status ? "[✓]" : "[ ]" ) + description;
     }
 }

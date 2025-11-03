@@ -1,13 +1,19 @@
 package Lab1;
 
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import static Lab1.Console.*;
 
 public class App {
     static void run() {
-        var tasks = new TaskList();
+        Path path = Paths.get(".", "src","main","java","lab1","Tasks.txt");
+        var tasks = readFile(path);
         printWelcomeMessage();
         while (true) {
+            println("Your tasks: ");
             printTasks(tasks);
             printMenu();
             var input = promptForSelection();
@@ -21,21 +27,33 @@ public class App {
                         println("You don't have pending tasks!");
                         break;
                     }
-                    println("Please enter the index of the task you want to complete: ");
+                    println("Please enter the index of the task you want to complete: (Press Enter to go back)");
                     printTasks(tasks);
                     var index = promptForTaskIndex(tasks);
-                    tasks.getTasks().get(index-1).changeStatus(true);
+                    if (index == null){
+                        println("Returning to menu");
+                        println("-----------------------");
+                        println("-----------------------");
+                        break;
+                    }
+                    tasks.getTasks().get(index-1).setStatus(true);
                     break;
                 case "d":
                     tasks = tasks.deleteCompletedTasks(tasks);
                     break;
                 case "q":
                     println("Bye!");
+                    try{
+                        Files.write(path, tasks.getBytes());
+                    } catch (Exception e){
+                        println("Error writing file. Please try again.");
+                    }
                     return;
                 default:
                     println("Invalid input. Please try again.");
                     break;
             }
+
         }
     }
 }

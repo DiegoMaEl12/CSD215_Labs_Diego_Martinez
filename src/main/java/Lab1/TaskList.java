@@ -1,5 +1,6 @@
 package Lab1;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class TaskList {
@@ -19,10 +20,6 @@ public class TaskList {
         tasks.remove(task);
     }
 
-    public int getIndex(Task task){
-        return tasks.indexOf(task);
-    }
-
     public TaskList deleteCompletedTasks(TaskList tasks){
         for(int i = 0; i < tasks.getTasks().size(); i++){
             if(tasks.getTasks().get(i).getStatus()){
@@ -33,4 +30,11 @@ public class TaskList {
         return tasks;
     }
 
+    public byte[] getBytes() {
+        StringBuilder sb = new StringBuilder();
+        for (Task task : tasks) {
+            sb.append(task.getStatus()).append(";").append(task.getDescription()).append("\n");
+        }
+        return sb.toString().getBytes(StandardCharsets.UTF_8);
+    }
 }
