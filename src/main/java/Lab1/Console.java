@@ -4,16 +4,25 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
 
+/**
+ *  Console class for input and output
+ */
 public class Console {
     public static void println(String message){
         System.out.println(message);
     }
 
+    /**
+     * Prints the welcome message
+     */
     public static void printWelcomeMessage(){
         println("Welcome to the Java ToDo list app!!!");
         println("-----------------------------------");
     }
 
+    /**
+     * Prints the menu options
+     */
     public static void printMenu(){
         println("What do you want to do?");
         println("a - Add task");
@@ -22,6 +31,10 @@ public class Console {
         println("q - Quit");
     }
 
+    /**
+     * Prompts the user for a selection from the menu
+     * @return The selection made by the user
+     */
     public static String promptForSelection(){
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
@@ -32,6 +45,11 @@ public class Console {
         return input;
     }
 
+    /**
+     * Prompts the user for a task index
+     * @param tasks The list of tasks
+     * @return The index of the task to be completed, or null if the user wants to go back
+     */
     public static Integer promptForTaskIndex(TaskList tasks){
         Scanner sc = new Scanner(System.in);
         while(true) {
@@ -52,6 +70,10 @@ public class Console {
         }
     }
 
+    /**
+     * Prints the list of tasks
+     * @param tasks The list of tasks
+     */
     public static void printTasks(TaskList tasks){
         if (tasks.getTasks().isEmpty()){
             println("You don't have any tasks!");
@@ -62,7 +84,10 @@ public class Console {
         }
     }
 
-
+    /**
+     * Prompts the user for a task description
+     * @return The task created from the description
+     */
     public static Task promptForTask(){
         println("Please enter the description of the task: ");
         Scanner sc = new Scanner(System.in);
@@ -74,6 +99,11 @@ public class Console {
         return new Task(description);
     }
 
+    /**
+     * Reads the tasks from a file
+     * @param path The path to the file
+     * @return The list of tasks read from the file
+     */
     public static TaskList readFile(Path path){
         var tasks = new TaskList();
         try{

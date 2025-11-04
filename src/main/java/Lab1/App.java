@@ -7,7 +7,14 @@ import java.nio.file.Paths;
 
 import static Lab1.Console.*;
 
+/**
+ * Main application class
+ */
 public class App {
+
+    /**
+     * Runs the main application loop
+     */
     static void run() {
         Path path = Paths.get(".", "src","main","java","lab1","Tasks.txt");
         var tasks = readFile(path);
