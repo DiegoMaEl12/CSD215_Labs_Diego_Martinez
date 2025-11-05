@@ -1,2 +1,3 @@
-false;tests
+true;tests
 true;whatever
+false;Finally the tests are working

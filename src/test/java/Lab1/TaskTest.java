@@ -1,7 +1,6 @@
 package Lab1;
 
 import org.junit.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TaskTest {
@@ -53,6 +52,35 @@ public class TaskTest {
         tasks = tasks.deleteCompletedTasks(tasks);
         assertEquals(1, tasks.getTasks().size());
         assertEquals("Task 2", tasks.getTasks().getFirst().getDescription());
+    }
+
+    @Test
+    public void testTaskToString(){
+        task1 = new Task("Task 1");
+        assertEquals("[ ]Task 1", task1.toString());
+        task1.setStatus(true);
+        assertEquals("[✓]Task 1", task1.toString());
+    }
+
+    @Test
+    public void testGetBytes(){
+        tasks = new TaskList();
+        task1 = new Task("Task 1");
+        task2 = new Task("Task 2");
+        tasks.addTask(task1);
+        tasks.addTask(task2);
+        task1.setStatus(true);
+        String expected = "true;Task 1\nfalse;Task 2\n";
+        assertArrayEquals(expected.getBytes(), tasks.getBytes());
+    }
+
+    @Test
+    public void testGetAndSetDescription(){
+        task1 = new Task("Task 1");
+        assertEquals("Task 1", task1.getDescription());
+        assertFalse(task1.getStatus());
+        task1.setStatus(true);
+        assertTrue(task1.getStatus());
     }
 
 

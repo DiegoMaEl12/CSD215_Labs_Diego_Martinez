@@ -7,7 +7,7 @@ import java.util.ArrayList;
  *  DTO for Task List
  */
 public class TaskList {
-    private static final ArrayList<Task> tasks = new ArrayList<>();
+    private final ArrayList<Task> tasks = new ArrayList<>();
 
     /**
      * Constructor for TaskList
